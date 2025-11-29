@@ -13,7 +13,6 @@
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #1b5e20;
@@ -25,7 +24,6 @@
       padding: 20px;
       flex-direction: column;
     }
-
     .container {
       background-color: rgba(255,255,255,0.9);
       border-radius: 16px;
@@ -36,7 +34,6 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.2);
       border: 1px solid #c8e6c9;
     }
-
     .header {
       background-color: #fff;
       color: #2e7d32;
@@ -46,7 +43,6 @@
       border-radius: 8px;
       margin: 20px 0 16px;
     }
-
     .button {
       background-color: #2e7d32;
       color: #fff;
@@ -64,12 +60,7 @@
       cursor: pointer;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
-
-    .button:hover {
-      background-color: #1b5e20;
-      transform: scale(1.02);
-    }
-
+    .button:hover { background-color: #1b5e20; transform: scale(1.02); }
     .modal {
       display: none;
       position: fixed;
@@ -80,7 +71,6 @@
       justify-content: center;
       align-items: center;
     }
-
     .modal-content {
       background-color: #fff;
       padding: 30px;
@@ -89,7 +79,6 @@
       width: 90%;
       max-width: 400px;
     }
-
     .close {
       color: #aaa;
       float: right;
@@ -97,85 +86,82 @@
       font-weight: bold;
       cursor: pointer;
     }
-
     .close:hover { color: black; }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <img src="chilleat-logo.png" height="60" alt="ChillEat Logo" />
-    <div class="header">ChillEat Canteen</div>
+<div class="container">
+  <img src="chilleat-logo.png" height="60" alt="ChillEat Logo" />
+  <div class="header">ChillEat Canteen</div>
 
-    <button class="button" id="showInstall">
-      <i class="fas fa-download"></i> Install ChillEat App
+  <button class="button" id="showInstall">
+    <i class="fas fa-download"></i> Install ChillEat App
+  </button>
+
+  <p style="margin-top: 20px; font-size: 14px; color: rgba(0,0,0,0.6);">
+    Developed by: Elvinson
+  </p>
+</div>
+
+<!-- Modal -->
+<div id="pwaModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closePwaModal">&times;</span>
+    <h2>Install ChillEat App</h2>
+    <button id="installBtn" class="button">
+      <i class="fas fa-download"></i> Install
     </button>
-
-    <p style="margin-top: 20px; font-size: 14px; color: rgba(0,0,0,0.6);">
-      Developed by: Elvinson
-    </p>
   </div>
+</div>
 
-  <!-- Modal for PWA Installation -->
-  <div id="pwaModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closePwaModal">&times;</span>
-      <h2>Install ChillEat App</h2>
-      <button id="installBtn" class="button">
-        <i class="fas fa-download"></i> Install
-      </button>
-    </div>
-  </div>
+<script>
+  // Redirect to redirect.html if installed
+  if (localStorage.getItem('chilleat_installed')) {
+    window.location.href = '/chilleat/redirect.html';
+  }
 
-  <script>
-    let deferredPrompt;
+  let deferredPrompt;
 
-    // Show the install button when PWA is installable
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      document.getElementById('showInstall').style.display = 'block';
-    });
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('showInstall').style.display = 'block';
+  });
 
-    const modal = document.getElementById('pwaModal');
-    const showBtn = document.getElementById('showInstall');
-    const closeBtn = document.getElementById('closePwaModal');
-    const installBtn = document.getElementById('installBtn');
+  const modal = document.getElementById('pwaModal');
+  const showBtn = document.getElementById('showInstall');
+  const closeBtn = document.getElementById('closePwaModal');
+  const installBtn = document.getElementById('installBtn');
 
-    // Open modal
-    showBtn.addEventListener('click', () => modal.style.display = 'flex');
+  showBtn.addEventListener('click', () => modal.style.display = 'flex');
+  closeBtn.addEventListener('click', () => modal.style.display = 'none');
+  window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
 
-    // Close modal
-    closeBtn.addEventListener('click', () => modal.style.display = 'none');
-    window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+  installBtn.addEventListener('click', async () => {
+    modal.style.display = 'none';
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log('PWA install result:', outcome);
+      deferredPrompt = null;
 
-    // Trigger PWA install
-    installBtn.addEventListener('click', async () => {
-      modal.style.display = 'none';
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log('PWA install result:', outcome);
-        deferredPrompt = null;
+      if (outcome === 'accepted') {
+        localStorage.setItem('chilleat_installed', 'true');
+        window.location.href = '/chilleat/redirect.html';
       }
-    });
-
-    // Redirect automatically after page load
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        window.location.href = "https://script.google.com/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
-      }, 500);
-    });
-
-    // Register Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/chilleat/sw.js')
-          .then(reg => console.log('Service Worker registered:', reg))
-          .catch(err => console.log('SW registration failed:', err));
-      });
     }
-  </script>
+  });
+
+  // Service worker registration
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/chilleat/sw.js')
+        .then(reg => console.log('SW registered:', reg))
+        .catch(err => console.log('SW failed:', err));
+    });
+  }
+</script>
 
 </body>
 </html>
