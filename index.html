@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ChillEat</title>
 
-  <!-- PWA Requirements -->
-  <link rel="manifest" href="/canteen/manifest.json">
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#ff5722">
-
-  <link rel="icon" type="image/png" sizes="192x192" href="/canteen/icons/icon-192.png">
-  <link rel="apple-touch-icon" href="/canteen/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://gcm-visa.github.io/canteen/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="https://gcm-visa.github.io/canteen/icons/icon-192.png">
 
   <style>
     body {
@@ -35,12 +34,15 @@
   <h1>Welcome to ChillEat</h1>
   <p>Your digital canteen ordering app</p>
 
+  <!-- Single Install Button -->
   <button id="installBtn">Install ChillEat App</button>
 
   <script>
     // SERVICE WORKER REGISTER
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/canteen/sw.js');
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('Service Worker Registered'))
+        .catch(err => console.error('SW Registration Failed:', err));
     }
 
     // INSTALL PROMPT
@@ -55,10 +57,12 @@
     document.getElementById('installBtn').addEventListener('click', async () => {
       if (!deferredPrompt) return;
       deferredPrompt.prompt();
-      await deferredPrompt.userChoice;
+      const choiceResult = await deferredPrompt.userChoice;
+      console.log('User choice:', choiceResult.outcome);
       deferredPrompt = null;
       document.getElementById('installBtn').style.display = "none";
     });
   </script>
+
 </body>
 </html>
