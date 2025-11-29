@@ -1,7 +1,7 @@
 {
   "name": "ChillEat",
   "short_name": "ChillEat",
-  "start_url": "/canteen/",
+  "start_url": "https://script.google.com/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ff5722",
