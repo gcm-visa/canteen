@@ -11,9 +11,6 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer" />
 
-  <!-- Script -->
-  <script defer src="/chilleat/script.js"></script>
-
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -133,6 +130,7 @@
   <script>
     let deferredPrompt;
 
+    // Show the install button when PWA is installable
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
@@ -144,9 +142,14 @@
     const closeBtn = document.getElementById('closePwaModal');
     const installBtn = document.getElementById('installBtn');
 
+    // Open modal
     showBtn.addEventListener('click', () => modal.style.display = 'flex');
-    closeBtn.addEventListener('click', () => modal.style.display = 'none');
 
+    // Close modal
+    closeBtn.addEventListener('click', () => modal.style.display = 'none');
+    window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+
+    // Trigger PWA install
     installBtn.addEventListener('click', async () => {
       modal.style.display = 'none';
       if (deferredPrompt) {
@@ -157,9 +160,14 @@
       }
     });
 
-    window.addEventListener('click', (e) => {
-      if (e.target === modal) modal.style.display = 'none';
+    // Redirect automatically after page load
+    window.addEventListener('load', () => {
+      // Delay slightly to allow modal / splash screen to show
+      setTimeout(() => {
+        window.location.href = "https://script.google.com/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
+      }, 500); // 500ms delay
     });
   </script>
+
 </body>
 </html>
