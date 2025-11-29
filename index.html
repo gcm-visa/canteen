@@ -167,6 +167,15 @@
         window.location.href = "https://script.google.com/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
       }, 500); // 500ms delay
     });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/chilleat/sw.js')
+        .then(reg => console.log('Service Worker registered:', reg))
+        .catch(err => console.log('SW registration failed:', err));
+    });
+  }
+
   </script>
 
 </body>
