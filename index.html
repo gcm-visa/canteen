@@ -1,176 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CHILL EAT Application</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHILL EAT App</title>
+<link rel="manifest" href="/gcm-visa-app/canteen/manifest.json" />
+<script defer>
+  let deferredPrompt;
 
-  <!-- Manifest -->
-  <link rel="manifest" href="/gcm-visa-app/manifest.json" />
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer" />
+    // Optionally, show your install button
+    document.getElementById('pwaModal').style.display = 'flex';
+  });
 
-  <!-- Script -->
-  <script defer src="/gcm-visa-app/script.js"></script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const installBtn = document.getElementById('installBtn');
+    const modal = document.getElementById('pwaModal');
+    const closeBtn = document.getElementById('closePwaModal');
 
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    installBtn.addEventListener('click', async () => {
+      modal.style.display = 'none';
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const choiceResult = await deferredPrompt.userChoice;
+        if (choiceResult.outcome === 'accepted') {
+          console.log('App installed');
+        }
+        deferredPrompt = null;
+      }
+    });
 
-body {
- font-family: 'Poppins', sans-serif;
-  background-color: #1b5e20;
-  min-height: 100vh;
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  flex-direction: column;
-}
-    
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+  });
 
-  .container {
-    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white for readability */
-    border-radius: 16px;
-    padding: 30px 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-    border: 1px solid #c8e6c9;
-  }
-    .header {
-      background-color: #ffffff;
-      color: #2e7d32;
-      padding: 12px;
-      font-size: 20px;
-      font-weight: bold;
-      border-radius: 8px;
-      margin: 20px 0 16px;
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
-    }
-
-    img { margin-bottom: 10px; }
-
-    .button {
-      background-color: #2e7d32;
-      color: white;
-      padding: 14px;
-      margin: 10px 0;
-      width: 100%;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .button i { font-size: 18px; }
-
-    .button:hover {
-      background-color: #1b5e20;
-      transform: scale(1.02);
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 8px;
-      text-align: center;
-      width: 90%;
-      max-width: 400px;
-    }
-
-    .modal-header {
-      font-size: 20px;
-      margin-bottom: 20px;
-      color: #2e7d32;
-    }
-
-    .modal-footer { margin-top: 20px; }
-
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-.announcement {
-      background: #fff;
-      padding: 15px 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      font-size: 14px; /* smaller font size */
-      color: #333;
-      text-align: center;
-      max-width: 500px;
-    }
-
-    .announcement h2 {
-      margin: 0 0 8px;
-      font-size: 18px;
-      color: #0066cc;
-    }
-
-    .announcement p {
-      margin: 0;
-      line-height: 1.4;
-    }
-  </style>
+  // Redirect immediately after installation
+  window.addEventListener('appinstalled', () => {
+    window.location.href = 'https://script.google.com/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c';
+  });
+</script>
+<style>
+  body{font-family:sans-serif;margin:0;padding:0;background:#1b5e20;display:flex;justify-content:center;align-items:center;height:100vh;}
+  .container{background:rgba(255,255,255,0.9);padding:30px 20px;text-align:center;border-radius:16px;max-width:400px;width:100%;border:1px solid #c8e6c9;}
+  .header{background:#fff;color:#2e7d32;padding:12px;font-size:20px;font-weight:bold;border-radius:8px;margin-bottom:16px;box-shadow:inset 0 0 5px rgba(0,0,0,0.1);}
+  .button{background:#2e7d32;color:#fff;padding:14px;width:100%;border:none;border-radius:8px;font-size:16px;font-weight:bold;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:0.3s;}
+  .button:hover{background:#1b5e20;}
+  .modal{display:none;position:fixed;z-index:1;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.4);justify-content:center;align-items:center;}
+  .modal-content{background:#fff;padding:30px;border-radius:8px;text-align:center;width:90%;max-width:400px;}
+  .modal-header{font-size:20px;margin-bottom:20px;color:#2e7d32;}
+  .close{color:#aaa;float:right;font-size:28px;font-weight:bold;cursor:pointer;}
+  .close:hover{color:black;}
+</style>
 </head>
 <body>
-  
-  <div class="container">
-    <img src="gcmlogo.png" height="60" alt="Logo" />
-    <div class="header">ChilLeat</div>
-<div class="announcement">
 
-
-<a href="https://drive.google.com/file/d/1Iel_Y1I3ipbFPHxrUd-5PZgLgoc5JPtW/view?usp=drive_link" target="_blank">
+<div class="container">
+  <div class="header">ChilLeat</div>
+  <p style="color:rgba(169,169,169,0.8)">Developed by: Elvinson</p>
 </div>
 
-    
-    <p style="margin-top: 20px; font-size: 14px; color: rgba(169, 169, 169, 0.8);">Developed by: Elvinson</p>
+<div id="pwaModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closePwaModal">&times;</span>
+    <div class="modal-header">Install CHILLEAT App</div>
+    <button id="installBtn" class="button"><i class="fas fa-download"></i>Download</button>
+  </div>
+</div>
 
-  </div>
-  
-  <!-- Modal for PWA Installation -->
-  <div id="pwaModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closePwaModal">&times;</span>
-      <div class="modal-header">
-        <h2>Install CHILLEAT App</h2>
-      </div>
-      <div class="modal-body">
-        <button id="installBtn" class="button"><i class="fas fa-download"></i>Download</button>
-      </div>
-      <div class="modal-footer">
-      </div>
-    </div>
-  </div>
 </body>
 </html>
