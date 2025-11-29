@@ -1,10 +1,9 @@
 const CACHE_NAME = 'chilleat-cache-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/chilleat-logo.png',
-  '/manifest.json'
+  '/chilleat/index.html',
+  '/chilleat/redirect.html',
+  '/chilleat/chilleat-logo.png',
+  '/chilleat/manifest.json'
 ];
 
 self.addEventListener('install', event => {
