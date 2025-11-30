@@ -1,21 +1,9 @@
-const CACHE_NAME = 'chilleat-cache-v1';
-const urlsToCache = [
-  '/chilleat/index.html',
-  '/chilleat/redirect.html',
-  '/chilleat/chilleat-logo.png',
-  '/chilleat/manifest.json'
-];
-
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-  );
+self.addEventListener("install", (event) => {
+  console.log("SW installed");
 });
 
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
-  );
+self.addEventListener("activate", (event) => {
+  console.log("SW activated");
 });
+
+self.addEventListener("fetch", () => {});
