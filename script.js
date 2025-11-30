@@ -52,7 +52,7 @@ closeModal.addEventListener("click", () => {
 });
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/canteen/service-worker.js");
+  navigator.serviceWorker.register("/canteen/sw.js");
     .then(() => console.log("SW registered"))
     .catch(err => console.log("SW fail", err));
 }
