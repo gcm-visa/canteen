@@ -50,3 +50,10 @@ installBtn.addEventListener("click", async () => {
 closeModal.addEventListener("click", () => {
   modal.style.display = "none";
 });
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/canteen/sw.js")
+    .then(() => console.log("SW registered"))
+    .catch(err => console.log("SW fail", err));
+}
+
