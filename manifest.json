@@ -1,19 +1,19 @@
 {
   "name": "ChillEat",
   "short_name": "ChillEat",
-  "start_url": "./redirect.html",
-  "scope": "./",
+  "start_url": "/chilleat/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#1b5e20",
+  "theme_color": "#ff5722",
+  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/canteen/icon-192x192.png",
+      "src": "/chilleat/icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/canteen/icon-512x512.png",
+      "src": "/chilleat/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
