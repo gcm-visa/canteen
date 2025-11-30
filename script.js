@@ -4,8 +4,7 @@ const installBtn = document.getElementById("installBtn");
 const closeModal = document.getElementById("closeModal");
 const orderBtn = document.getElementById("orderBtn");
 
-const WEBAPP_URL =
-  "https://script.google.com/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
 
 // Detect if PWA installed
 window.addEventListener("load", () => {
@@ -15,7 +14,7 @@ window.addEventListener("load", () => {
   }
 });
 
-// BUTTON CLICK
+// ORDER BUTTON
 orderBtn.addEventListener("click", () => {
   if (deferredPrompt) {
     modal.style.display = "flex"; // show install popup
@@ -30,7 +29,7 @@ window.addEventListener("beforeinstallprompt", (e) => {
   deferredPrompt = e;
 });
 
-// Install button
+// INSTALL BUTTON
 installBtn.addEventListener("click", async () => {
   modal.style.display = "none";
 
@@ -46,15 +45,14 @@ installBtn.addEventListener("click", async () => {
   deferredPrompt = null;
 });
 
-// Close modal
+// CLOSE MODAL
 closeModal.addEventListener("click", () => {
   modal.style.display = "none";
 });
 
+// REGISTER SERVICE WORKER
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("/canteen/service-worker.js")
     .then(() => console.log("SW registered"))
     .catch(err => console.log("SW fail", err));
 }
-
-
