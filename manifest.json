@@ -1,11 +1,11 @@
 {
   "name": "ChillEat",
   "short_name": "ChillEat",
-  "start_url": "/chilleat/index.html",
+  "start_url": "./redirect.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#ff5722",
-  "orientation": "portrait-primary",
+  "theme_color": "#1b5e20",
   "icons": [
     {
       "src": "/canteen/icon-192x192.png",
