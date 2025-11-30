@@ -1,13 +1,21 @@
 {
   "name": "ChillEat Canteen",
   "short_name": "ChillEat",
-  "description": "Order food easily at the canteen",
+  "description": "ChillEat Canteen – Order delicious food easily.",
   "start_url": "/canteen/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#1b5e20",
   "theme_color": "#1b5e20",
   "icons": [
-    { "src": "/canteen/icon-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/canteen/icon-512x512.png", "sizes": "512x512", "type": "image/png" }
+    {
+      "src": "/canteen/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/canteen/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ]
 }
