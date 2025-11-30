@@ -1,2 +1,2 @@
-self.addEventListener("install", (e) => {});
-self.addEventListener("activate", (e) => {});
+self.addEventListener("install", () => {});
+self.addEventListener("activate", () => {});
