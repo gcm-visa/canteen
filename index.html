@@ -6,161 +6,119 @@
   <title>ChillEat Canteen App</title>
 
   <!-- Manifest -->
-  <link rel="manifest" href="/chilleat/manifest.json" />
+  <link rel="manifest" href="./manifest.json" />
+
+  <!-- Icons -->
+  <link rel="icon" href="./icons/icon-192.png" />
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #1b5e20;
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      flex-direction: column;
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      font-family:'Poppins',sans-serif;
+      background-color:#1b5e20;
+      color:#fff;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+      flex-direction:column;
     }
-    .container {
-      background-color: rgba(255,255,255,0.9);
-      border-radius: 16px;
-      padding: 30px 20px;
-      text-align: center;
-      max-width: 400px;
-      width: 100%;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-      border: 1px solid #c8e6c9;
+    .container{
+      background-color:#fff;
+      border-radius:16px;
+      padding:30px 20px;
+      max-width:400px;
+      width:100%;
+      text-align:center;
+      color:#2e7d32;
     }
-    .header {
-      background-color: #fff;
-      color: #2e7d32;
-      padding: 12px;
-      font-size: 20px;
-      font-weight: bold;
-      border-radius: 8px;
-      margin: 20px 0 16px;
+    .button{
+      background:#2e7d32;
+      color:#fff;
+      padding:14px;
+      margin-top:15px;
+      width:100%;
+      border:none;
+      border-radius:8px;
+      font-size:16px;
+      cursor:pointer;
     }
-    .button {
-      background-color: #2e7d32;
-      color: #fff;
-      padding: 14px;
-      margin: 10px 0;
-      width: 100%;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+    .modal{
+      display:none;
+      position:fixed;top:0;left:0;
+      width:100%;height:100%;
+      background:rgba(0,0,0,0.5);
+      justify-content:center;align-items:center;
     }
-    .button:hover { background-color: #1b5e20; transform: scale(1.02); }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
+    .modal-content{
+      background:#fff;padding:25px;border-radius:10px;color:#1b5e20;
     }
-    .modal-content {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 8px;
-      text-align: center;
-      width: 90%;
-      max-width: 400px;
-    }
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .close:hover { color: black; }
   </style>
 </head>
+
 <body>
 
 <div class="container">
-  <img src="chilleat-logo.png" height="60" alt="ChillEat Logo" />
-  <div class="header">ChillEat Canteen</div>
+  <img src="./icons/icon-192.png" height="60" />
+  <h2 style="margin-top:12px;">ChillEat Canteen</h2>
 
-  <button class="button" id="showInstall">
+  <button id="installBtn" class="button" style="display:none;">
     <i class="fas fa-download"></i> Install ChillEat App
   </button>
-
-  <p style="margin-top: 20px; font-size: 14px; color: rgba(0,0,0,0.6);">
-    Developed by: Elvinson
-  </p>
 </div>
 
 <!-- Modal -->
 <div id="pwaModal" class="modal">
   <div class="modal-content">
-    <span class="close" id="closePwaModal">&times;</span>
-    <h2>Install ChillEat App</h2>
-    <button id="installBtn" class="button">
-      <i class="fas fa-download"></i> Install
-    </button>
+    <h3>Install ChillEat App</h3>
+    <button id="confirmInstall" class="button">Install</button>
   </div>
 </div>
 
 <script>
-  // Redirect to redirect.html if installed
-  if (localStorage.getItem('chilleat_installed')) {
-    window.location.href = '/chilleat/redirect.html';
-  }
+let deferredPrompt;
 
-  let deferredPrompt;
+// detect installed → go redirect
+if (window.matchMedia('(display-mode: standalone)').matches || localStorage.getItem('installed') === 'yes') {
+  window.location.href = "./redirect.html";
+}
 
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    document.getElementById('showInstall').style.display = 'block';
-  });
+// intercept install event
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
 
-  const modal = document.getElementById('pwaModal');
-  const showBtn = document.getElementById('showInstall');
-  const closeBtn = document.getElementById('closePwaModal');
-  const installBtn = document.getElementById('installBtn');
+  // show button
+  document.getElementById("installBtn").style.display = "block";
+});
 
-  showBtn.addEventListener('click', () => modal.style.display = 'flex');
-  closeBtn.addEventListener('click', () => modal.style.display = 'none');
-  window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+document.getElementById("installBtn").addEventListener("click", () => {
+  document.getElementById("pwaModal").style.display = "flex";
+});
 
-  installBtn.addEventListener('click', async () => {
-    modal.style.display = 'none';
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      console.log('PWA install result:', outcome);
-      deferredPrompt = null;
+document.getElementById("confirmInstall").addEventListener("click", async () => {
+  document.getElementById("pwaModal").style.display = "none";
 
-      if (outcome === 'accepted') {
-        localStorage.setItem('chilleat_installed', 'true');
-        window.location.href = '/chilleat/redirect.html';
-      }
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const result = await deferredPrompt.userChoice;
+
+    if (result.outcome === "accepted") {
+      localStorage.setItem('installed', 'yes');
+      window.location.href = "./redirect.html";
     }
-  });
-
-  // Service worker registration
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/chilleat/sw.js')
-        .then(reg => console.log('SW registered:', reg))
-        .catch(err => console.log('SW failed:', err));
-    });
+    deferredPrompt = null;
   }
+});
+
+// register SW
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js");
+}
 </script>
 
 </body>
