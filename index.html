@@ -1,37 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ChillEat</title>
-  <link rel="manifest" href="manifest.json">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ChillEat Canteen App</title>
+
+  <!-- Correct manifest path -->
+  <link rel="manifest" href="manifest.json" />
 </head>
 <body>
 
-<button id="installBtn" style="display:none; padding:20px; font-size:20px;">
+<h2>ChillEat App</h2>
+
+<button id="installBtn" style="
+  padding: 15px;
+  font-size: 18px;
+  display: none;
+">
   Install ChillEat App
 </button>
 
 <script>
 let deferredPrompt;
 
-// INSTALL BUTTON SHOULD SHOW WHEN INSTALLABLE
+// If already installed → go to redirect page
+if (localStorage.getItem("installed") === "yes") {
+  window.location.href = "redirect.html";
+}
+
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
   document.getElementById("installBtn").style.display = "block";
 });
 
-// WHEN CLICK → PROMPT INSTALL
 document.getElementById("installBtn").addEventListener("click", async () => {
   deferredPrompt.prompt();
   const result = await deferredPrompt.userChoice;
+
   if (result.outcome === "accepted") {
     localStorage.setItem("installed", "yes");
     window.location.href = "redirect.html";
   }
 });
 
-// REGISTER SW
+// Register service worker
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js");
 }
