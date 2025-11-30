@@ -1,58 +1,52 @@
 let deferredPrompt;
-const modal = document.getElementById("pwaModal");
-const installBtn = document.getElementById("installBtn");
-const closeModal = document.getElementById("closeModal");
-const orderBtn = document.getElementById("orderBtn");
+const installBtn = document.getElementById('installBtn');
+const pwaModal = document.getElementById('pwaModal');
+const closePwaModal = document.getElementById('closePwaModal');
+const orderBtn = document.getElementById('orderBtn');
+const menuBtn = document.getElementById('menuBtn');
 
-const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
+const WEBAPP_URL = "https://your-webapp-link.com"; // replace with your actual web app link
 
-// Detect if PWA installed
-window.addEventListener("load", () => {
-  if (window.matchMedia("(display-mode: standalone)").matches ||
-      window.navigator.standalone === true) {
-    window.location.href = WEBAPP_URL;
-  }
-});
-
-// ORDER BUTTON
-orderBtn.addEventListener("click", () => {
-  if (deferredPrompt) {
-    modal.style.display = "flex"; // show install popup
-  } else {
-    window.location.href = WEBAPP_URL; // fallback
-  }
-});
-
-// Capture beforeinstallprompt
-window.addEventListener("beforeinstallprompt", (e) => {
+// Show PWA install modal
+window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
+  pwaModal.style.display = "flex";
 });
 
-// INSTALL BUTTON
-installBtn.addEventListener("click", async () => {
-  modal.style.display = "none";
+// Install button
+if (installBtn) {
+  installBtn.addEventListener('click', () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choice) => {
+        console.log(choice.outcome);
+        deferredPrompt = null;
+      });
+      pwaModal.style.display = "none";
+    }
+  });
+}
 
-  if (!deferredPrompt) return;
+// Close modal
+if (closePwaModal) {
+  closePwaModal.onclick = () => pwaModal.style.display = "none";
+}
 
-  deferredPrompt.prompt();
-  const choice = await deferredPrompt.userChoice;
+// Close modal if clicking outside
+window.onclick = (event) => {
+  if (event.target == pwaModal) pwaModal.style.display = "none";
+};
 
-  if (choice.outcome === "accepted") {
-    window.location.href = WEBAPP_URL;
-  }
+// Redirect buttons
+if (orderBtn) orderBtn.addEventListener('click', () => window.location.href = WEBAPP_URL);
+if (menuBtn) menuBtn.addEventListener('click', () => window.location.href = WEBAPP_URL);
 
-  deferredPrompt = null;
-});
-
-// CLOSE MODAL
-closeModal.addEventListener("click", () => {
-  modal.style.display = "none";
-});
-
-// REGISTER SERVICE WORKER
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/canteen/service-worker.js")
-    .then(() => console.log("SW registered"))
-    .catch(err => console.log("SW fail", err));
+// Register service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/canteen/service-worker.js')
+      .then(reg => console.log('ServiceWorker registered:', reg.scope))
+      .catch(err => console.error('SW registration failed:', err));
+  });
 }
