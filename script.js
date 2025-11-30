@@ -5,7 +5,7 @@ const closePwaModal = document.getElementById('closePwaModal');
 const orderBtn = document.getElementById('orderBtn');
 const menuBtn = document.getElementById('menuBtn');
 
-const WEBAPP_URL = "https://your-webapp-link.com"; // replace with your actual web app link
+const WEBAPP_URL = "https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c"; // replace with your actual web app link
 
 // Show PWA install modal
 window.addEventListener('beforeinstallprompt', (e) => {
