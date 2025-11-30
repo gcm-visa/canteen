@@ -1,83 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ChillEat – Canteen</title>
 
-  <link rel="manifest" href="/canteen/manifest.json">
+  <!-- Manifest -->
+  <link rel="manifest" href="/canteen/manifest.json" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer" />
+
+  <!-- Script -->
   <script defer src="/canteen/script.js"></script>
 
   <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: #1b5e20;
-      height: 100vh;
+      background-color: #1b5e20;
+      min-height: 100vh;
+      color: #ffffff;
       display: flex;
       justify-content: center;
       align-items: center;
-      color: white;
+      padding: 20px;
       flex-direction: column;
     }
-    .box {
-      background: white;
-      color: #1b5e20;
-      padding: 30px;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 350px;
+    .container {
+      background-color: rgba(255,255,255,0.9);
+      border-radius: 16px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      max-width: 400px;
+      width: 100%;
       text-align: center;
+      border: 1px solid #c8e6c9;
     }
-    .btn {
-      background: #1b5e20;
+    .header {
+      background-color: #ffffff;
+      color: #2e7d32;
       padding: 12px;
-      border-radius: 8px;
-      margin-top: 15px;
-      display: block;
-      color: white;
-      text-decoration: none;
+      font-size: 20px;
       font-weight: bold;
-      cursor: pointer;
+      border-radius: 8px;
+      margin-bottom: 20px;
     }
-    #pwaModal {
+    .button {
+      background-color: #2e7d32;
+      color: white;
+      padding: 14px;
+      margin: 10px 0;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .button i { font-size: 18px; }
+    .button:hover { background-color: #1b5e20; transform: scale(1.02); }
+
+    .modal {
       display: none;
       position: fixed;
+      z-index: 1000;
       left: 0; top: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
+      background-color: rgba(0,0,0,0.4);
       justify-content: center;
       align-items: center;
     }
-    .modal-box {
-      background: white;
-      padding: 25px;
-      border-radius: 15px;
-      width: 90%;
-      max-width: 350px;
+    .modal-content {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
       text-align: center;
-      color: #1b5e20;
+      width: 90%;
+      max-width: 400px;
     }
-    .close { cursor: pointer; float: right; font-size: 22px; }
+    .modal-header {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #2e7d32;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover { color: black; text-decoration: none; }
   </style>
 </head>
 <body>
-
-  <div class="box">
+  <div class="container">
     <h1>🍽 ChillEat</h1>
-    <p>Order delicious food easily</p>
+    <div class="header">Order Your Food</div>
 
-    <button id="orderBtn" class="btn">ORDER NOW</button>
+    <button class="button" id="orderBtn"><i class="fas fa-utensils"></i>Order Now</button>
+    <button class="button" id="menuBtn"><i class="fas fa-list"></i>View Menu</button>
   </div>
 
-  <!-- Install Popup -->
-  <div id="pwaModal">
-    <div class="modal-box">
-      <span id="closeModal" class="close">&times;</span>
-      <h2>Install ChillEat App</h2>
-      <button id="installBtn" class="btn">Install Now</button>
+  <!-- Modal for PWA Installation -->
+  <div id="pwaModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closePwaModal">&times;</span>
+      <div class="modal-header">Install ChillEat App</div>
+      <div class="modal-body">
+        <button id="installBtn" class="button"><i class="fas fa-download"></i>Install</button>
+      </div>
     </div>
   </div>
-
 </body>
 </html>
