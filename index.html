@@ -69,7 +69,7 @@
     .modal {
       display: none;
       position: fixed;
-      z-index: 1000;
+      z-index: 1;
       left: 0; top: 0;
       width: 100%; height: 100%;
       background-color: rgba(0,0,0,0.4);
@@ -84,40 +84,37 @@
       width: 90%;
       max-width: 400px;
     }
-    .modal-header {
-      font-size: 20px;
-      margin-bottom: 20px;
-      color: #2e7d32;
-    }
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+    .modal-header { font-size: 20px; margin-bottom: 20px; color: #2e7d32; }
+    .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
     .close:hover { color: black; text-decoration: none; }
   </style>
 </head>
 <body>
+  
   <div class="container">
-    <h1>🍽 ChillEat</h1>
-    <div class="header">Order Your Food</div>
+    <h1>🍽 ChillEat Canteen</h1>
+    <div class="header">Order Delicious Food</div>
 
-    <button class="button" id="orderBtn"><i class="fas fa-utensils"></i>Order Now</button>
-    <button class="button" id="menuBtn"><i class="fas fa-list"></i>View Menu</button>
+    <button class="button" id="orderBtn">
+      <i class="fas fa-utensils"></i> Open Web App
+    </button>
+
+    <p style="margin-top: 20px; font-size: 14px; color: rgba(169,169,169,0.8);">
+      Developed by: Elvinson
+    </p>
   </div>
-
+  
   <!-- Modal for PWA Installation -->
   <div id="pwaModal" class="modal">
     <div class="modal-content">
       <span class="close" id="closePwaModal">&times;</span>
-      <div class="modal-header">Install ChillEat App</div>
+      <div class="modal-header">
+        Install ChillEat App
+      </div>
       <div class="modal-body">
         <button id="installBtn" class="button"><i class="fas fa-download"></i>Install</button>
       </div>
     </div>
   </div>
- 
 </body>
 </html>
