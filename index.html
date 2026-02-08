@@ -11,9 +11,6 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer" />
 
-  <!-- Script -->
-  <script defer src="/canteen/script.js"></script>
-
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -30,78 +27,115 @@
     .container {
       background-color: rgba(255,255,255,0.9);
       border-radius: 16px;
-      padding: 30px 20px;
+      padding: 40px 30px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.15);
       max-width: 400px;
       width: 100%;
       text-align: center;
       border: 1px solid #c8e6c9;
     }
-    .header {
-      background-color: #ffffff;
-      color: #2e7d32;
-      padding: 12px;
-      font-size: 20px;
-      font-weight: bold;
-      border-radius: 8px;
-      margin-bottom: 20px;
+    .logo {
+      margin-bottom: 25px;
     }
-    .button {
+    .logo img {
+      height: 120px;
+      width: auto;
+    }
+    .loading-message {
+      color: #2e7d32;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    .spinner {
+      border: 4px solid rgba(46, 125, 50, 0.2);
+      border-top: 4px solid #2e7d32;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .redirect-message {
+      color: #666;
+      font-size: 14px;
+      margin-top: 15px;
+      line-height: 1.5;
+    }
+    
+    .manual-link {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px dashed #ddd;
+    }
+    
+    .manual-link a {
+      display: inline-block;
       background-color: #2e7d32;
       color: white;
-      padding: 14px;
-      margin: 10px 0;
-      width: 100%;
-      border: none;
+      padding: 12px 24px;
+      text-decoration: none;
       border-radius: 8px;
-      font-size: 16px;
       font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      transition: background-color 0.3s ease;
     }
-    .button i { font-size: 18px; }
-    .button:hover { background-color: #1b5e20; transform: scale(1.02); }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.4);
-      justify-content: center;
-      align-items: center;
+    
+    .manual-link a:hover {
+      background-color: #1b5e20;
     }
-    .modal-content {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 8px;
-      text-align: center;
-      width: 90%;
-      max-width: 400px;
-    }
-    .modal-header { font-size: 20px; margin-bottom: 20px; color: #2e7d32; }
-    .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
-    .close:hover { color: black; text-decoration: none; }
   </style>
+  
+  <script>
+    // Redirect immediately when page loads
+    window.onload = function() {
+      // Show loading message
+      document.getElementById('loadingMessage').style.display = 'block';
+      document.getElementById('spinner').style.display = 'block';
+      
+      // Redirect after a very short delay (100ms) to ensure page is loaded
+      setTimeout(function() {
+        window.location.href = "https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
+      }, 100);
+    };
+    
+    // If redirect fails, show manual link after 3 seconds
+    setTimeout(function() {
+      document.getElementById('manualLink').style.display = 'block';
+    }, 3000);
+  </script>
 </head>
 <body>
- <img src="/canteen/chilleat.png" height="120">
- <div class="container">
-  
-    <a class="button" 
-       href="https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c">
-      <i class="fas fa-utensils"></i> Order Delicious Food
-    </a>
-    </p>
+  <div class="container">
+    <div class="logo">
+      <img src="/canteen/chilleat.png" alt="ChillEat Logo">
+    </div>
+    
+    <div class="loading-message" id="loadingMessage">
+      Loading ChillEat Order System...
+    </div>
+    
+    <div class="spinner" id="spinner"></div>
+    
+    <div class="redirect-message">
+      You will be redirected to the ordering system automatically.
+    </div>
+    
+    <div class="manual-link" id="manualLink" style="display: none;">
+      <p>If you're not redirected automatically:</p>
+      <a href="https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c">
+        <i class="fas fa-utensils"></i> Click to Order Delicious Food
+      </a>
+    </div>
   </div>
   
   <!-- Modal for PWA Installation -->
-  <div id="pwaModal" class="modal">
+  <div id="pwaModal" class="modal" style="display: none;">
     <div class="modal-content">
       <span class="close" id="closePwaModal">&times;</span>
       <div class="modal-header">
