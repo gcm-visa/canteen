@@ -15,7 +15,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #0F4D23;
+      background-color: #1b5e20;  /* Changed to #1b5e20 */
       min-height: 100vh;
       color: #ffffff;
       display: flex;
@@ -25,14 +25,14 @@
       flex-direction: column;
     }
     .container {
-      background-color: rgba(255,255,255,0.9);
+      background-color: rgba(255,255,255,0.95);
       border-radius: 16px;
       padding: 40px 30px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
       max-width: 400px;
       width: 100%;
       text-align: center;
-      border: 1px solid #c8e6c9;
+      border: 2px solid #e8f5e9;  /* Lighter border for better contrast */
     }
     .logo {
       margin-bottom: 25px;
@@ -42,14 +42,14 @@
       width: auto;
     }
     .loading-message {
-      color: #2e7d32;
+      color: #1b5e20;  /* Changed to #1b5e20 */
       font-size: 18px;
       font-weight: bold;
       margin: 20px 0;
     }
     .spinner {
-      border: 4px solid rgba(46, 125, 50, 0.2);
-      border-top: 4px solid #2e7d32;
+      border: 4px solid rgba(27, 94, 32, 0.2);  /* Changed to #1b5e20 with transparency */
+      border-top: 4px solid #1b5e20;  /* Changed to #1b5e20 */
       border-radius: 50%;
       width: 40px;
       height: 40px;
@@ -77,17 +77,102 @@
     
     .manual-link a {
       display: inline-block;
-      background-color: #2e7d32;
+      background-color: #1b5e20;  /* Changed to #1b5e20 */
       color: white;
       padding: 12px 24px;
       text-decoration: none;
       border-radius: 8px;
       font-weight: bold;
-      transition: background-color 0.3s ease;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(27, 94, 32, 0.3);  /* Added shadow with matching color */
     }
     
     .manual-link a:hover {
-      background-color: #1b5e20;
+      background-color: #145218;  /* Darker shade of #1b5e20 for hover */
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(27, 94, 32, 0.4);
+    }
+    
+    .manual-link a i {
+      margin-right: 8px;
+    }
+    
+    /* Modal styles (hidden by default) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background-color: white;
+      border-radius: 12px;
+      padding: 25px;
+      max-width: 300px;
+      width: 90%;
+      text-align: center;
+      border: 2px solid #1b5e20;  /* Changed to #1b5e20 */
+    }
+    
+    .modal-header {
+      color: #1b5e20;  /* Changed to #1b5e20 */
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    
+    .close {
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      color: #1b5e20;  /* Changed to #1b5e20 */
+      cursor: pointer;
+    }
+    
+    .button {
+      background-color: #1b5e20;  /* Changed to #1b5e20 */
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    
+    .button:hover {
+      background-color: #145218;  /* Darker shade of #1b5e20 */
+    }
+    
+    /* Footer note */
+    .footer-note {
+      margin-top: 20px;
+      color: rgba(255,255,255,0.8);
+      font-size: 12px;
+      text-align: center;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+      }
+      .logo img {
+        height: 100px;
+      }
+      .loading-message {
+        font-size: 16px;
+      }
     }
   </style>
   
@@ -108,6 +193,32 @@
     setTimeout(function() {
       document.getElementById('manualLink').style.display = 'block';
     }, 3000);
+    
+    // PWA Installation Prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      setTimeout(() => {
+        document.getElementById('pwaModal').style.display = 'flex';
+      }, 2000);
+    });
+    
+    document.getElementById('closePwaModal').addEventListener('click', () => {
+      document.getElementById('pwaModal').style.display = 'none';
+    });
+    
+    document.getElementById('installBtn').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          console.log('PWA installed');
+        }
+        deferredPrompt = null;
+        document.getElementById('pwaModal').style.display = 'none';
+      }
+    });
   </script>
 </head>
 <body>
@@ -134,6 +245,10 @@
     </div>
   </div>
   
+  <div class="footer-note">
+    GCM Canteen Ordering System | ChillEat © 2024
+  </div>
+  
   <!-- Modal for PWA Installation -->
   <div id="pwaModal" class="modal" style="display: none;">
     <div class="modal-content">
@@ -142,7 +257,9 @@
         Install ChillEat App
       </div>
       <div class="modal-body">
-        <button id="installBtn" class="button"><i class="fas fa-download"></i>Install</button>
+        <button id="installBtn" class="button">
+          <i class="fas fa-download"></i> Install App
+        </button>
       </div>
     </div>
   </div>
