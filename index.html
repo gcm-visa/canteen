@@ -41,7 +41,7 @@
       height: 120px;
       width: auto;
     }
-    .loading-message {
+    .welcome-message {
       color: #1b5e20;
       font-size: 18px;
       font-weight: bold;
@@ -63,7 +63,7 @@
       100% { transform: rotate(360deg); }
     }
     
-    .redirect-message {
+    .instruction {
       color: #666;
       font-size: 14px;
       margin-top: 15px;
@@ -80,15 +80,16 @@
     .action-button {
       display: inline-block;
       color: white;
-      padding: 14px 24px;
+      padding: 16px 24px;
       text-decoration: none;
-      border-radius: 8px;
+      border-radius: 10px;
       font-weight: bold;
       transition: all 0.3s ease;
       font-size: 16px;
       border: none;
       cursor: pointer;
       width: 100%;
+      text-align: center;
     }
     
     .install-btn {
@@ -103,7 +104,7 @@
     
     .action-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
     }
     
     .install-btn:hover {
@@ -115,115 +116,12 @@
     }
     
     .action-button i {
-      margin-right: 8px;
-    }
-    
-    /* Modal styles - IMPORTANT: display: none by default */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.7);
-      justify-content: center;
-      align-items: center;
-    }
-    
-    .modal.show {
-      display: flex;
-    }
-    
-    .modal-content {
-      background-color: white;
-      border-radius: 16px;
-      padding: 30px;
-      max-width: 380px;
-      width: 90%;
-      text-align: center;
-      border: 3px solid #1b5e20;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      animation: modalFadeIn 0.3s ease;
-    }
-    
-    @keyframes modalFadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .modal-header {
-      color: #1b5e20;
-      font-size: 22px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-    
-    .modal-icon {
-      font-size: 48px;
-      color: #1b5e20;
-      margin: 15px 0;
-    }
-    
-    .modal-text {
-      color: #555;
-      font-size: 15px;
-      line-height: 1.5;
-      margin-bottom: 25px;
-    }
-    
-    .modal-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 20px;
-    }
-    
-    .modal-button {
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-      transition: all 0.3s;
-      width: 100%;
-    }
-    
-    .primary-btn {
-      background-color: #1b5e20;
-      color: white;
-    }
-    
-    .secondary-btn {
-      background-color: #f5f5f5;
-      color: #333;
-      border: 2px solid #ddd;
-    }
-    
-    .modal-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    
-    .primary-btn:hover {
-      background-color: #145218;
-    }
-    
-    .secondary-btn:hover {
-      background-color: #e0e0e0;
+      margin-right: 10px;
     }
     
     /* College address info */
     .college-info {
-      margin-top: 25px;
+      margin-top: 30px;
       padding-top: 20px;
       border-top: 1px solid #e0e0e0;
       color: #666;
@@ -239,14 +137,8 @@
       .logo img {
         height: 100px;
       }
-      .loading-message {
+      .welcome-message {
         font-size: 16px;
-      }
-      .modal-content {
-        padding: 25px 20px;
-      }
-      .modal-header {
-        font-size: 20px;
       }
       .college-info {
         font-size: 12px;
@@ -260,21 +152,21 @@
       <img src="/canteen/chilleat.png" alt="ChillEat Logo">
     </div>
     
-    <div class="loading-message" id="loadingMessage">
+    <div class="welcome-message" id="welcomeMessage">
       Welcome to ChillEat Order System
     </div>
     
     <div class="spinner" id="spinner"></div>
     
-    <div class="redirect-message">
+    <div class="instruction">
       Choose how you'd like to access our ordering system
     </div>
     
     <div class="action-buttons" id="actionButtons">
-      <button class="action-button install-btn" onclick="showInstallModal()">
+      <button class="action-button install-btn" id="installAppBtn">
         <i class="fas fa-download"></i> Install App
       </button>
-      <a href="https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c" class="action-button order-btn">
+      <a href="https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c" class="action-button order-btn" id="orderNowBtn">
         <i class="fas fa-utensils"></i> Order Now (Web)
       </a>
     </div>
@@ -287,50 +179,18 @@
     </div>
   </div>
   
-  <!-- Installation Modal - Initially hidden -->
-  <div id="installModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-icon">
-        <i class="fas fa-mobile-alt"></i>
-      </div>
-      <div class="modal-header">
-        Install ChillEat App
-      </div>
-      <div class="modal-text">
-        Get the best experience by installing our app! Enjoy faster access, push notifications for your orders, and work offline.
-      </div>
-      <div class="modal-buttons">
-        <button id="installBtn" class="modal-button primary-btn">
-          <i class="fas fa-download"></i> Install Now
-        </button>
-        <button onclick="closeModalAndOrder()" class="modal-button secondary-btn">
-          <i class="fas fa-external-link-alt"></i> Use Web Version
-        </button>
-      </div>
-    </div>
-  </div>
-  
   <script>
     // Initialize when page loads
     document.addEventListener('DOMContentLoaded', function() {
-      // Check if already installed
+      // Check if already installed as PWA
       if (window.matchMedia('(display-mode: standalone)').matches) {
         // Already installed, redirect to ordering
         console.log('Already installed as PWA, redirecting...');
         redirectToOrder();
-      } else {
-        // Not installed, show the page normally
-        console.log('Not installed as PWA, showing options...');
-        // Hide spinner initially
-        document.getElementById('spinner').style.display = 'none';
-        
-        // Show install modal after a short delay
-        setTimeout(showInstallModal, 800);
       }
     });
     
     let deferredPrompt;
-    let installPromptShown = false;
     
     // Listen for beforeinstallprompt event
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -339,96 +199,63 @@
       console.log('PWA install prompt available');
     });
     
-    function showInstallModal() {
-      console.log('Showing install modal');
-      installPromptShown = true;
-      document.getElementById('installModal').classList.add('show');
-    }
-    
-    function closeModal() {
-      document.getElementById('installModal').classList.remove('show');
-    }
-    
-    function closeModalAndOrder() {
-      closeModal();
-      redirectToOrder();
-    }
-    
-    function redirectToOrder() {
-      console.log('Redirecting to order system...');
-      document.getElementById('loadingMessage').textContent = 'Redirecting to Order System...';
-      document.getElementById('spinner').style.display = 'block';
-      document.getElementById('actionButtons').style.display = 'none';
-      document.querySelector('.redirect-message').style.display = 'none';
-      document.querySelector('.college-info').style.display = 'none';
+    // Handle Install App button click
+    document.getElementById('installAppBtn').addEventListener('click', async () => {
+      console.log('Install App button clicked');
       
-      // Redirect immediately
-      window.location.href = "https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
-    }
-    
-    // Handle install button click
-    document.getElementById('installBtn').addEventListener('click', async () => {
-      console.log('Install button clicked');
       if (deferredPrompt) {
         try {
+          // Show native install prompt
           deferredPrompt.prompt();
           const { outcome } = await deferredPrompt.userChoice;
           console.log('Install outcome:', outcome);
           
           if (outcome === 'accepted') {
             console.log('PWA installed successfully');
-            // Give some feedback
-            document.getElementById('loadingMessage').textContent = 'App installed! Redirecting...';
-            document.getElementById('spinner').style.display = 'block';
-            document.getElementById('actionButtons').style.display = 'none';
-            document.querySelector('.redirect-message').style.display = 'none';
-            document.querySelector('.college-info').style.display = 'none';
-            
-            // Close modal
-            closeModal();
-            
-            // Redirect after installation
-            setTimeout(() => {
-              window.location.href = "https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
-            }, 1000);
+            // Show loading state
+            showLoading('App installed! Redirecting...');
+            // Redirect after a short delay
+            setTimeout(redirectToOrder, 1000);
           } else {
             console.log('User declined installation - Redirecting immediately');
-            // User declined, redirect immediately
-            closeModal();
+            // User cancelled, redirect immediately
             redirectToOrder();
           }
         } catch (error) {
           console.error('Installation error:', error);
-          closeModal();
+          // If error, redirect to web version
           redirectToOrder();
         }
         deferredPrompt = null;
       } else {
-        console.log('No install prompt available, redirecting...');
-        closeModal();
+        console.log('No install prompt available, redirecting to web version...');
+        // If no install prompt, just go to web version
         redirectToOrder();
       }
     });
     
-    // Close modal if clicked outside
-    document.getElementById('installModal').addEventListener('click', (event) => {
-      if (event.target === document.getElementById('installModal')) {
-        console.log('Modal clicked outside, closing and redirecting...');
-        closeModalAndOrder();
-      }
-    });
-    
-    // Prevent the Order Now (Web) link from opening immediately
-    document.querySelector('.order-btn').addEventListener('click', function(e) {
+    // Handle Order Now button click
+    document.getElementById('orderNowBtn').addEventListener('click', function(e) {
       e.preventDefault();
       console.log('Order Now clicked');
       redirectToOrder();
     });
     
-    // Also handle the Install App button on main page
-    document.querySelector('.install-btn').addEventListener('click', function(e) {
-      // This just shows the modal, which is already handled
-    });
+    function showLoading(message) {
+      document.getElementById('welcomeMessage').textContent = message;
+      document.getElementById('spinner').style.display = 'block';
+      document.getElementById('actionButtons').style.display = 'none';
+      document.querySelector('.instruction').style.display = 'none';
+      document.querySelector('.college-info').style.display = 'none';
+    }
+    
+    function redirectToOrder() {
+      console.log('Redirecting to order system...');
+      showLoading('Redirecting to Order System...');
+      
+      // Redirect immediately
+      window.location.href = "https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
+    }
   </script>
 </body>
 </html>
