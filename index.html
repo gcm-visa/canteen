@@ -372,15 +372,15 @@
           const { outcome } = await deferredPrompt.userChoice;
           console.log('Install outcome:', outcome);
           
-          if (outcome === 'accepted') {
-            console.log('PWA installed successfully');
-            // Close modal
-            closeModal();
-            // Show loading state
-            showLoading('App installed! Redirecting...');
-            // Redirect after a short delay
-            setTimeout(redirectToOrder, 1000);
-          } else {
+if (outcome === 'accepted') {
+  console.log('PWA installed successfully');
+  // Close modal
+  closeModal();
+  // Show loading state
+  showLoading('Chill eat...');
+  // Redirect after a short delay
+  setTimeout(redirectToOrder, 1000);
+} else {
             console.log('User declined installation');
             // Close modal
             closeModal();
@@ -410,22 +410,23 @@
       }
     });
     
-    function showLoading(message) {
-      document.getElementById('welcomeMessage').textContent = message;
-      document.getElementById('spinner').style.display = 'block';
-      document.getElementById('actionButtons').style.display = 'none';
-      document.querySelector('.instruction').style.display = 'none';
-      document.getElementById('installLink').style.display = 'none';
-      document.querySelector('.college-info').style.display = 'none';
-    }
-    
-    function redirectToOrder() {
-      console.log('Chill eat...');
-      showLoading('Chill eat...');
-      
-      // Redirect immediately
-      window.location.href = "https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
-    }
+function showLoading(message) {
+  document.getElementById('welcomeMessage').textContent = message;
+  document.getElementById('spinner').style.display = 'block';
+  document.getElementById('actionButtons').style.display = 'none';
+  document.getElementById('installLink').style.display = 'none';
+  document.querySelector('.college-info').style.display = 'none';
+}
+
+function redirectToOrder() {
+  console.log('Chill eat...');
+  showLoading('Chill eat...');
+  
+  // Add a small delay to show the loading message, then redirect
+  setTimeout(function() {
+    window.location.href = "https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
+  }, 500);
+}
   </script>
 </body>
 </html>
