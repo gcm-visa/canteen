@@ -15,7 +15,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #1b5e20;  /* Changed to #1b5e20 */
+      background-color: #1b5e20;
       min-height: 100vh;
       color: #ffffff;
       display: flex;
@@ -32,7 +32,7 @@
       max-width: 400px;
       width: 100%;
       text-align: center;
-      border: 2px solid #e8f5e9;  /* Lighter border for better contrast */
+      border: 2px solid #e8f5e9;
     }
     .logo {
       margin-bottom: 25px;
@@ -42,19 +42,20 @@
       width: auto;
     }
     .loading-message {
-      color: #1b5e20;  /* Changed to #1b5e20 */
+      color: #1b5e20;
       font-size: 18px;
       font-weight: bold;
       margin: 20px 0;
     }
     .spinner {
-      border: 4px solid rgba(27, 94, 32, 0.2);  /* Changed to #1b5e20 with transparency */
-      border-top: 4px solid #1b5e20;  /* Changed to #1b5e20 */
+      border: 4px solid rgba(27, 94, 32, 0.2);
+      border-top: 4px solid #1b5e20;
       border-radius: 50%;
       width: 40px;
       height: 40px;
       animation: spin 1s linear infinite;
       margin: 20px auto;
+      display: none;
     }
     
     @keyframes spin {
@@ -69,35 +70,55 @@
       line-height: 1.5;
     }
     
-    .manual-link {
-      margin-top: 25px;
-      padding-top: 20px;
-      border-top: 1px dashed #ddd;
+    .action-buttons {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
     
-    .manual-link a {
+    .action-button {
       display: inline-block;
-      background-color: #1b5e20;  /* Changed to #1b5e20 */
       color: white;
-      padding: 12px 24px;
+      padding: 14px 24px;
       text-decoration: none;
       border-radius: 8px;
       font-weight: bold;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 8px rgba(27, 94, 32, 0.3);  /* Added shadow with matching color */
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
     }
     
-    .manual-link a:hover {
-      background-color: #145218;  /* Darker shade of #1b5e20 for hover */
+    .install-btn {
+      background-color: #1b5e20;
+      box-shadow: 0 4px 8px rgba(27, 94, 32, 0.3);
+    }
+    
+    .order-btn {
+      background-color: #f57c00;
+      box-shadow: 0 4px 8px rgba(245, 124, 0, 0.3);
+    }
+    
+    .action-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(27, 94, 32, 0.4);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
     }
     
-    .manual-link a i {
+    .install-btn:hover {
+      background-color: #145218;
+    }
+    
+    .order-btn:hover {
+      background-color: #e65100;
+    }
+    
+    .action-button i {
       margin-right: 8px;
     }
     
-    /* Modal styles (hidden by default) */
+    /* Modal styles - IMPORTANT: display: none by default */
     .modal {
       display: none;
       position: fixed;
@@ -106,52 +127,98 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.5);
-      display: flex;
+      background-color: rgba(0,0,0,0.7);
       justify-content: center;
       align-items: center;
     }
     
+    .modal.show {
+      display: flex;
+    }
+    
     .modal-content {
       background-color: white;
-      border-radius: 12px;
-      padding: 25px;
-      max-width: 300px;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 380px;
       width: 90%;
       text-align: center;
-      border: 2px solid #1b5e20;  /* Changed to #1b5e20 */
+      border: 3px solid #1b5e20;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: modalFadeIn 0.3s ease;
+    }
+    
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     
     .modal-header {
-      color: #1b5e20;  /* Changed to #1b5e20 */
-      font-size: 20px;
+      color: #1b5e20;
+      font-size: 22px;
       font-weight: bold;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
     
-    .close {
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-      color: #1b5e20;  /* Changed to #1b5e20 */
-      cursor: pointer;
+    .modal-icon {
+      font-size: 48px;
+      color: #1b5e20;
+      margin: 15px 0;
     }
     
-    .button {
-      background-color: #1b5e20;  /* Changed to #1b5e20 */
-      color: white;
-      border: none;
-      padding: 12px 24px;
+    .modal-text {
+      color: #555;
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+    
+    .modal-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    
+    .modal-button {
+      padding: 14px;
       border-radius: 8px;
       font-size: 16px;
-      cursor: pointer;
-      width: 100%;
       font-weight: bold;
-      transition: background-color 0.3s;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s;
+      width: 100%;
     }
     
-    .button:hover {
-      background-color: #145218;  /* Darker shade of #1b5e20 */
+    .primary-btn {
+      background-color: #1b5e20;
+      color: white;
+    }
+    
+    .secondary-btn {
+      background-color: #f5f5f5;
+      color: #333;
+      border: 2px solid #ddd;
+    }
+    
+    .modal-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .primary-btn:hover {
+      background-color: #145218;
+    }
+    
+    .secondary-btn:hover {
+      background-color: #e0e0e0;
     }
     
     /* Footer note */
@@ -173,53 +240,14 @@
       .loading-message {
         font-size: 16px;
       }
+      .modal-content {
+        padding: 25px 20px;
+      }
+      .modal-header {
+        font-size: 20px;
+      }
     }
   </style>
-  
-  <script>
-    // Redirect immediately when page loads
-    window.onload = function() {
-      // Show loading message
-      document.getElementById('loadingMessage').style.display = 'block';
-      document.getElementById('spinner').style.display = 'block';
-      
-      // Redirect after a very short delay (100ms) to ensure page is loaded
-      setTimeout(function() {
-        window.location.href = "https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
-      }, 100);
-    };
-    
-    // If redirect fails, show manual link after 3 seconds
-    setTimeout(function() {
-      document.getElementById('manualLink').style.display = 'block';
-    }, 3000);
-    
-    // PWA Installation Prompt
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      setTimeout(() => {
-        document.getElementById('pwaModal').style.display = 'flex';
-      }, 2000);
-    });
-    
-    document.getElementById('closePwaModal').addEventListener('click', () => {
-      document.getElementById('pwaModal').style.display = 'none';
-    });
-    
-    document.getElementById('installBtn').addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-          console.log('PWA installed');
-        }
-        deferredPrompt = null;
-        document.getElementById('pwaModal').style.display = 'none';
-      }
-    });
-  </script>
 </head>
 <body>
   <div class="container">
@@ -228,19 +256,21 @@
     </div>
     
     <div class="loading-message" id="loadingMessage">
-      Loading ChillEat Order System...
+      Welcome to ChillEat Order System
     </div>
     
     <div class="spinner" id="spinner"></div>
     
     <div class="redirect-message">
-      You will be redirected to the ordering system automatically.
+      Choose how you'd like to access our ordering system
     </div>
     
-    <div class="manual-link" id="manualLink" style="display: none;">
-      <p>If you're not redirected automatically:</p>
-      <a href="https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c">
-        <i class="fas fa-utensils"></i> Click to Order Delicious Food
+    <div class="action-buttons" id="actionButtons">
+      <button class="action-button install-btn" onclick="showInstallModal()">
+        <i class="fas fa-download"></i> Install App
+      </button>
+      <a href="https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c" class="action-button order-btn">
+        <i class="fas fa-utensils"></i> Order Now (Web)
       </a>
     </div>
   </div>
@@ -249,19 +279,134 @@
     GCM Canteen Ordering System | ChillEat © 2024
   </div>
   
-  <!-- Modal for PWA Installation -->
-  <div id="pwaModal" class="modal" style="display: none;">
+  <!-- Installation Modal - Initially hidden -->
+  <div id="installModal" class="modal">
     <div class="modal-content">
-      <span class="close" id="closePwaModal">&times;</span>
+      <div class="modal-icon">
+        <i class="fas fa-mobile-alt"></i>
+      </div>
       <div class="modal-header">
         Install ChillEat App
       </div>
-      <div class="modal-body">
-        <button id="installBtn" class="button">
-          <i class="fas fa-download"></i> Install App
+      <div class="modal-text">
+        Get the best experience by installing our app! Enjoy faster access, push notifications for your orders, and work offline.
+      </div>
+      <div class="modal-buttons">
+        <button id="installBtn" class="modal-button primary-btn">
+          <i class="fas fa-download"></i> Install Now
+        </button>
+        <button onclick="closeModalAndOrder()" class="modal-button secondary-btn">
+          <i class="fas fa-external-link-alt"></i> Use Web Version
         </button>
       </div>
     </div>
   </div>
+  
+  <script>
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if already installed
+      if (window.matchMedia('(display-mode: standalone)').matches) {
+        // Already installed, redirect to ordering
+        console.log('Already installed as PWA, redirecting...');
+        redirectToOrder();
+      } else {
+        // Not installed, show the page normally
+        console.log('Not installed as PWA, showing options...');
+        // Hide spinner initially
+        document.getElementById('spinner').style.display = 'none';
+        
+        // Show install modal after a short delay
+        setTimeout(showInstallModal, 800);
+      }
+    });
+    
+    let deferredPrompt;
+    
+    // Listen for beforeinstallprompt event
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      console.log('PWA install prompt available');
+    });
+    
+    function showInstallModal() {
+      console.log('Showing install modal');
+      document.getElementById('installModal').classList.add('show');
+    }
+    
+    function closeModal() {
+      document.getElementById('installModal').classList.remove('show');
+    }
+    
+    function closeModalAndOrder() {
+      closeModal();
+      redirectToOrder();
+    }
+    
+    function redirectToOrder() {
+      console.log('Redirecting to order system...');
+      document.getElementById('loadingMessage').textContent = 'Redirecting to Order System...';
+      document.getElementById('spinner').style.display = 'block';
+      document.getElementById('actionButtons').style.display = 'none';
+      document.getElementById('redirectMessage').style.display = 'none';
+      
+      // Redirect after 1 second
+      setTimeout(function() {
+        window.location.href = "https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
+      }, 1000);
+    }
+    
+    // Handle install button click
+    document.getElementById('installBtn').addEventListener('click', async () => {
+      console.log('Install button clicked');
+      if (deferredPrompt) {
+        try {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log('Install outcome:', outcome);
+          
+          if (outcome === 'accepted') {
+            console.log('PWA installed successfully');
+            // Give some feedback
+            document.getElementById('loadingMessage').textContent = 'App installed! Redirecting...';
+            document.getElementById('spinner').style.display = 'block';
+            
+            // Close modal
+            closeModal();
+            
+            // Redirect after installation
+            setTimeout(redirectToOrder, 1500);
+          } else {
+            console.log('User declined installation');
+            // User declined, close modal and redirect
+            closeModalAndOrder();
+          }
+        } catch (error) {
+          console.error('Installation error:', error);
+          closeModalAndOrder();
+        }
+        deferredPrompt = null;
+      } else {
+        console.log('No install prompt available, redirecting...');
+        closeModalAndOrder();
+      }
+    });
+    
+    // Close modal if clicked outside
+    document.getElementById('installModal').addEventListener('click', (event) => {
+      if (event.target === document.getElementById('installModal')) {
+        console.log('Modal clicked outside, closing and redirecting...');
+        closeModalAndOrder();
+      }
+    });
+    
+    // Prevent the Order Now (Web) link from opening immediately
+    document.querySelector('.order-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('Order Now clicked');
+      redirectToOrder();
+    });
+  </script>
 </body>
 </html>
