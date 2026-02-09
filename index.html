@@ -221,12 +221,14 @@
       background-color: #e0e0e0;
     }
     
-    /* Footer note */
-    .footer-note {
-      margin-top: 20px;
-      color: rgba(255,255,255,0.8);
-      font-size: 12px;
-      text-align: center;
+    /* College address info */
+    .college-info {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+      color: #666;
+      font-size: 13px;
+      line-height: 1.4;
     }
     
     /* Responsive adjustments */
@@ -245,6 +247,9 @@
       }
       .modal-header {
         font-size: 20px;
+      }
+      .college-info {
+        font-size: 12px;
       }
     }
   </style>
@@ -273,10 +278,13 @@
         <i class="fas fa-utensils"></i> Order Now (Web)
       </a>
     </div>
-  </div>
-  
-  <div class="footer-note">
-    GCM Canteen Ordering System | ChillEat © 2024
+    
+    <!-- College address information -->
+    <div class="college-info">
+      Gullas College of Medicine<br>
+      Canteen Ordering System<br>
+      <small>Your convenient food ordering solution</small>
+    </div>
   </div>
   
   <!-- Installation Modal - Initially hidden -->
@@ -322,6 +330,7 @@
     });
     
     let deferredPrompt;
+    let installPromptShown = false;
     
     // Listen for beforeinstallprompt event
     window.addEventListener('beforeinstallprompt', (e) => {
@@ -332,6 +341,7 @@
     
     function showInstallModal() {
       console.log('Showing install modal');
+      installPromptShown = true;
       document.getElementById('installModal').classList.add('show');
     }
     
@@ -349,12 +359,11 @@
       document.getElementById('loadingMessage').textContent = 'Redirecting to Order System...';
       document.getElementById('spinner').style.display = 'block';
       document.getElementById('actionButtons').style.display = 'none';
-      document.getElementById('redirectMessage').style.display = 'none';
+      document.querySelector('.redirect-message').style.display = 'none';
+      document.querySelector('.college-info').style.display = 'none';
       
-      // Redirect after 1 second
-      setTimeout(function() {
-        window.location.href = "https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
-      }, 1000);
+      // Redirect immediately
+      window.location.href = "https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
     }
     
     // Handle install button click
@@ -371,25 +380,33 @@
             // Give some feedback
             document.getElementById('loadingMessage').textContent = 'App installed! Redirecting...';
             document.getElementById('spinner').style.display = 'block';
+            document.getElementById('actionButtons').style.display = 'none';
+            document.querySelector('.redirect-message').style.display = 'none';
+            document.querySelector('.college-info').style.display = 'none';
             
             // Close modal
             closeModal();
             
             // Redirect after installation
-            setTimeout(redirectToOrder, 1500);
+            setTimeout(() => {
+              window.location.href = "https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c";
+            }, 1000);
           } else {
-            console.log('User declined installation');
-            // User declined, close modal and redirect
-            closeModalAndOrder();
+            console.log('User declined installation - Redirecting immediately');
+            // User declined, redirect immediately
+            closeModal();
+            redirectToOrder();
           }
         } catch (error) {
           console.error('Installation error:', error);
-          closeModalAndOrder();
+          closeModal();
+          redirectToOrder();
         }
         deferredPrompt = null;
       } else {
         console.log('No install prompt available, redirecting...');
-        closeModalAndOrder();
+        closeModal();
+        redirectToOrder();
       }
     });
     
@@ -406,6 +423,11 @@
       e.preventDefault();
       console.log('Order Now clicked');
       redirectToOrder();
+    });
+    
+    // Also handle the Install App button on main page
+    document.querySelector('.install-btn').addEventListener('click', function(e) {
+      // This just shows the modal, which is already handled
     });
   </script>
 </body>
