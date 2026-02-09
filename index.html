@@ -92,11 +92,6 @@
       text-align: center;
     }
     
-    .install-btn {
-      background-color: #1b5e20;
-      box-shadow: 0 4px 8px rgba(27, 94, 32, 0.3);
-    }
-    
     .order-btn {
       background-color: #f57c00;
       box-shadow: 0 4px 8px rgba(245, 124, 0, 0.3);
@@ -107,16 +102,25 @@
       box-shadow: 0 6px 12px rgba(0,0,0,0.3);
     }
     
-    .install-btn:hover {
-      background-color: #145218;
-    }
-    
     .order-btn:hover {
       background-color: #e65100;
     }
     
     .action-button i {
       margin-right: 10px;
+    }
+    
+    /* Install App link - small and subtle */
+    .install-link {
+      margin-top: 20px;
+      color: #1b5e20;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    
+    .install-link:hover {
+      color: #145218;
     }
     
     /* College address info */
@@ -127,6 +131,109 @@
       color: #666;
       font-size: 13px;
       line-height: 1.4;
+    }
+    
+    /* Modal styles for install popup */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal.show {
+      display: flex;
+    }
+    
+    .modal-content {
+      background-color: white;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 380px;
+      width: 90%;
+      text-align: center;
+      border: 3px solid #1b5e20;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: modalFadeIn 0.3s ease;
+    }
+    
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .modal-header {
+      color: #1b5e20;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    
+    .modal-icon {
+      font-size: 48px;
+      color: #1b5e20;
+      margin: 15px 0;
+    }
+    
+    .modal-text {
+      color: #555;
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+    
+    .modal-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    
+    .modal-button {
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s;
+      width: 100%;
+    }
+    
+    .primary-btn {
+      background-color: #1b5e20;
+      color: white;
+    }
+    
+    .secondary-btn {
+      background-color: #f5f5f5;
+      color: #333;
+      border: 2px solid #ddd;
+    }
+    
+    .modal-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .primary-btn:hover {
+      background-color: #145218;
+    }
+    
+    .secondary-btn:hover {
+      background-color: #e0e0e0;
     }
     
     /* Responsive adjustments */
@@ -142,6 +249,12 @@
       }
       .college-info {
         font-size: 12px;
+      }
+      .modal-content {
+        padding: 25px 20px;
+      }
+      .modal-header {
+        font-size: 20px;
       }
     }
   </style>
@@ -159,16 +272,18 @@
     <div class="spinner" id="spinner"></div>
     
     <div class="instruction">
-      Choose how you'd like to access our ordering system
+      Click below to start ordering delicious food
     </div>
     
     <div class="action-buttons" id="actionButtons">
-      <button class="action-button install-btn" id="installAppBtn">
-        <i class="fas fa-download"></i> Install App
-      </button>
       <a href="https://script.google.com/a/gcm.edu.ph/macros/s/AKfycbwTWG64jn7L0VDRlN7s3u8_X3MWxb5H_7l0SvvjZ964A_lAnOblCP58kdy4iL18NejGpA/exec?page=c" class="action-button order-btn" id="orderNowBtn">
-        <i class="fas fa-utensils"></i> Order Now (Web)
+        <i class="fas fa-utensils"></i> Order Now
       </a>
+    </div>
+    
+    <!-- Small install app link -->
+    <div class="install-link" id="installLink">
+      <i class="fas fa-mobile-alt"></i> Want to install the app for better experience?
     </div>
     
     <!-- College address information -->
@@ -176,6 +291,29 @@
       Gullas College of Medicine<br>
       Canteen Ordering System<br>
       <small>Your convenient food ordering solution</small>
+    </div>
+  </div>
+  
+  <!-- Install App Modal -->
+  <div id="installModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-icon">
+        <i class="fas fa-download"></i>
+      </div>
+      <div class="modal-header">
+        Install ChillEat App
+      </div>
+      <div class="modal-text">
+        Get the best experience by installing our app! Enjoy faster access, push notifications for your orders, and work offline.
+      </div>
+      <div class="modal-buttons">
+        <button id="installBtn" class="modal-button primary-btn">
+          <i class="fas fa-download"></i> Install Now
+        </button>
+        <button onclick="closeModal()" class="modal-button secondary-btn">
+          Maybe Later
+        </button>
+      </div>
     </div>
   </div>
   
@@ -187,21 +325,46 @@
         // Already installed, redirect to ordering
         console.log('Already installed as PWA, redirecting...');
         redirectToOrder();
+        return;
       }
+      
+      // Check if PWA install is available
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        console.log('PWA install prompt available');
+        
+        // Show install link since PWA is available
+        document.getElementById('installLink').style.display = 'block';
+        
+        // Also show modal automatically after delay
+        setTimeout(() => {
+          showInstallModal();
+        }, 1000);
+      });
     });
     
     let deferredPrompt;
     
-    // Listen for beforeinstallprompt event
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      console.log('PWA install prompt available');
+    // Show install modal when install link is clicked
+    document.getElementById('installLink').addEventListener('click', function() {
+      showInstallModal();
     });
     
-    // Handle Install App button click
-    document.getElementById('installAppBtn').addEventListener('click', async () => {
-      console.log('Install App button clicked');
+    function showInstallModal() {
+      if (deferredPrompt) {
+        console.log('Showing install modal');
+        document.getElementById('installModal').classList.add('show');
+      }
+    }
+    
+    function closeModal() {
+      document.getElementById('installModal').classList.remove('show');
+    }
+    
+    // Handle Install button in modal
+    document.getElementById('installBtn').addEventListener('click', async () => {
+      console.log('Install button clicked');
       
       if (deferredPrompt) {
         try {
@@ -212,25 +375,25 @@
           
           if (outcome === 'accepted') {
             console.log('PWA installed successfully');
+            // Close modal
+            closeModal();
             // Show loading state
             showLoading('App installed! Redirecting...');
             // Redirect after a short delay
             setTimeout(redirectToOrder, 1000);
           } else {
-            console.log('User declined installation - Redirecting immediately');
-            // User cancelled, redirect immediately
-            redirectToOrder();
+            console.log('User declined installation');
+            // Close modal
+            closeModal();
           }
         } catch (error) {
           console.error('Installation error:', error);
-          // If error, redirect to web version
-          redirectToOrder();
+          closeModal();
         }
         deferredPrompt = null;
       } else {
-        console.log('No install prompt available, redirecting to web version...');
-        // If no install prompt, just go to web version
-        redirectToOrder();
+        console.log('No install prompt available');
+        closeModal();
       }
     });
     
@@ -241,11 +404,19 @@
       redirectToOrder();
     });
     
+    // Close modal if clicked outside
+    document.getElementById('installModal').addEventListener('click', (event) => {
+      if (event.target === document.getElementById('installModal')) {
+        closeModal();
+      }
+    });
+    
     function showLoading(message) {
       document.getElementById('welcomeMessage').textContent = message;
       document.getElementById('spinner').style.display = 'block';
       document.getElementById('actionButtons').style.display = 'none';
       document.querySelector('.instruction').style.display = 'none';
+      document.getElementById('installLink').style.display = 'none';
       document.querySelector('.college-info').style.display = 'none';
     }
     
